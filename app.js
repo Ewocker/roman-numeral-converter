@@ -1,32 +1,8 @@
-
-
-/**
- * IntToRomanNumeral converts integer to Roman numeral.
- *
- * @param {number} n - n must be a positive integer.
- * @return {string} 
- *
- * @example
- *
- *     foo('hello')
- */
-const intToRomanNumeral = (n) => {
+exports.intToRomanNumeral = (n) => {
   // TODO error handling
   // if (!Number.isInteger(n)) {
   //   return 
   // }
-
-  // symbol (val) I   V   X   L   C	  D	  M
-  //        (key) 1   5   10	50	100	500	1000
-  // Algorithm: 
-  //  if firstDigit <= 3
-  //    symbol[division] * firstDigit
-  //  elif firstDigit == 4
-  //    symbol[division] + symbol[division * 5]
-  //  elif 5 <= firstDigit <=8
-  //    symbol[division * 5] + (symbol[division] * (firstDigit-5))
-  //  elif firstDigit == 9
-  //    symbol[division] + symbol[division*10]
 
   const symbol = {
     '0': '',
@@ -50,9 +26,6 @@ const intToRomanNumeral = (n) => {
     division /= 10
     const firstDigit = Math.floor(val/division)
 
-    console.log(val)
-    console.log(division)
-    console.log(firstDigit)
     if (firstDigit <= 3) {
       for (let c = 0; c < firstDigit; c++)
         res += symbol[division]
@@ -70,5 +43,3 @@ const intToRomanNumeral = (n) => {
 
   return res
 }
-
-console.log(intToRomanNumeral(2000))
