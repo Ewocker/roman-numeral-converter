@@ -16,12 +16,9 @@ exports.intToRomanNumeral = (n) => {
   }
 
   let res = ''
-  let division = 1
-  while (n >= division) {
-    division *= 10
-  }
-
+  let division = 10000
   let val = n
+
   while (val > 0) {
     division /= 10
     const firstDigit = Math.floor(val/division)
