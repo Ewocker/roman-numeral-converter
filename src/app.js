@@ -2,7 +2,7 @@ import Koa from 'koa'
 import Accesslog from 'koa-accesslog'
 import Boom from 'boom'
 
-import router from './router'
+import router from './route'
 
 const server = new Koa()
 

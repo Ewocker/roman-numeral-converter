@@ -2,11 +2,12 @@
 ```
 src
 │   app.js      # App entry point
-└───api         # route controllers for all the endpoints of the app
-└───config      # Environment variables and configuration related stuff
+└───api         # Route handler
+└───route       # Application routes
+└───service     # Business logic
+└───config      # Environment variables and configuration
 └───loader      # Split the startup process into modules
 └───model       # Database models
-└───service     # Business logic
 test
 └───api         # api test folder
 └───unit        # unit test folder
