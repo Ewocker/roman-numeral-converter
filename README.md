@@ -1,3 +1,14 @@
+## Folder Structure
+```
+src
+│   app.js       # App entry point
+└───api          # route controllers for all the endpoints of the app
+└───config       # Environment variables and configuration related stuff
+└───loader       # Split the startup process into modules
+└───model        # Database models
+└───service      # Business logic
+```
+
 ## Others
 distroless for security
 gcr.io/distroless/nodejs:14
