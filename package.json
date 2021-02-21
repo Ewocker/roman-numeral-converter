@@ -7,11 +7,13 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon -r esm index.js",
-    "test": "jest",
+    "test:api": "jest test/api",
+    "test:unit": "jest test/unit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
+    "axios": "^0.21.1",
     "eslint": "^7.20.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-import": "^2.22.1",
