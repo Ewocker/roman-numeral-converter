@@ -1,5 +1,5 @@
-# node:14.15.5-buster
-FROM node@sha256:810fc73fffa02751facec95f355202b2976441ac772bdb4bd650bd1b87e88776 as builder
+# node:node:14.15.5-alpine3.13
+FROM node@sha256:03b86ea1f9071a99ee3de468659c9af95ca0bedbcd7d32bf31d61fa32c1a8ab3 as builder
 
 USER node
 RUN mkdir /home/node/app 
@@ -14,8 +14,8 @@ COPY --chown=node:node src/ src/
 COPY --chown=node:node test/ test/
 
 
-# node:14.15.5-buster
-FROM node@sha256:810fc73fffa02751facec95f355202b2976441ac772bdb4bd650bd1b87e88776 as tester
+# node:node:14.15.5-alpine3.13
+FROM node@sha256:03b86ea1f9071a99ee3de468659c9af95ca0bedbcd7d32bf31d61fa32c1a8ab3 as tester
 
 USER node
 RUN mkdir /home/node/app

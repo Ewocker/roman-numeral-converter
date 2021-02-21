@@ -1,0 +1,72 @@
+# docker-compose.yml
+
+version: "3.2"
+
+services:
+  service:
+    # We are specifying the Ghost Image to run
+    image: ghost:3-alpine
+    restart: always
+
+    # We want the container to restart in case the host gets restarted
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.60"
+          memory: 400M
+        reservations:
+          cpus: "0.20"
+          memory: 100M
+
+    # Map host port 3050 to container port 2368
+    ports:
+      - 2368:2368
+
+    # Mount host directory to container directory
+    volumes:
+      - /home/ylin/ghost/data:/var/lib/ghost/content
+
+    # Specify your Ghost blog URL and mail server settings
+    environment:
+      url: https://blog.ewocker.com
+      mail__transport: SMTP
+      mail__options__service: chockerlin@gmail.com
+
+  commento:
+    image: registry.gitlab.com/commento/commento:latest # no tag https://gitlab.com/commento/commento/container_registry
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+      COMMENTO_ORIGIN: https://commento.ewocker.com
+      COMMENTO_POSTGRES: postgres://postgres:postgres@db:5432/commento?sslmode=disable
+    depends_on:
+      - db
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.20"
+          memory: 100M
+        reservations:
+          cpus: "0.10"
+          memory: 50M
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: commento
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.20"
+          memory: 100M
+        reservations:
+          cpus: "0.10"
+          memory: 50M
+    volumes:
+      - /home/ylin/ghost/commento:/var/lib/postgresql/data
