@@ -2,7 +2,7 @@ const { expect } = require('@jest/globals')
 const { intToRomanNumeral } = require('./app.js')
 
 describe('test intToRomanNumeral', () => {
-  it.each`
+	it.each`
     input   | expected
     ${1}    | ${'I'}
     ${2}    | ${'II'}
@@ -55,5 +55,7 @@ describe('test intToRomanNumeral', () => {
     ${3997} | ${'MMMCMXCVII'}
     ${3998} | ${'MMMCMXCVIII'}
     ${3999} | ${'MMMCMXCIX'}
-  `('should return $expected for input $input', ({input, expected}) => expect(intToRomanNumeral(input)).toEqual(expected))
+  `('should return $expected for input $input', ({ input, expected }) =>
+		expect(intToRomanNumeral(input)).toEqual(expected)
+	)
 })
