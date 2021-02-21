@@ -16,5 +16,8 @@
     "test": "jest",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "validator": "^13.5.2"
   }
 }

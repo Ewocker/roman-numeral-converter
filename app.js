@@ -1,24 +1,24 @@
+const validator = require('validator')
+const symbol = {
+	0: '',
+	1: 'I',
+	5: 'V',
+	10: 'X',
+	50: 'L',
+	100: 'C',
+	500: 'D',
+	1000: 'M',
+}
+
 exports.intToRomanNumeral = (n) => {
-	// TODO error handling
-	// if (!Number.isInteger(n)) {
-	//   return
-	// }
+	// validation
+	if (!validator.isNumeric(String(n), {no_symbols: true})) throw 'Parameter is not a number'
+	let val = Number(n)
+	if (!(1 <= val && val <= 3999 )) throw 'Parameter must be in range of 1-3999'
 
-	const symbol = {
-		0: '',
-		1: 'I',
-		5: 'V',
-		10: 'X',
-		50: 'L',
-		100: 'C',
-		500: 'D',
-		1000: 'M',
-	}
-
+	// algorithm
 	let res = ''
 	let division = 10000
-	let val = n
-
 	while (val > 0) {
 		division /= 10
 		const firstDigit = Math.floor(val / division)

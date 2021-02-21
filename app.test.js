@@ -58,4 +58,36 @@ describe('test intToRomanNumeral', () => {
   `('should return $expected for input $input', ({ input, expected }) =>
 		expect(intToRomanNumeral(input)).toEqual(expected)
 	)
+
+	it.each`
+    input     | expected
+    ${'1'}    | ${'I'}
+    ${'3999'} | ${'MMMCMXCIX'}
+  `('should return $expected for string input "$input"', ({ input, expected }) =>
+		expect(intToRomanNumeral(input)).toEqual(expected)
+	)
+
+	it.each`
+    input
+    ${0}
+    ${4000}
+    ${'0'}
+    ${'4000'}
+  `('should throw error for input $input', ({ input }) =>
+		expect(() => intToRomanNumeral(input)).toThrow('Parameter must be in range of 1-3999')
+	)
+
+	it.each`
+    input
+    ${''}
+    ${' '}
+    ${'xxZ'}
+    ${'x123'}
+    ${'0cmnwe02314'}
+    ${'4000  '}
+    ${'     _ 4000  '}
+    ${'  """&530   _ 4000  '}
+  `('should throw error for input $input', ({ input }) =>
+		expect(() => intToRomanNumeral(input)).toThrow('Parameter is not a number')
+	)
 })
