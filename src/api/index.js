@@ -1,7 +1,5 @@
 import intToRomanNumeral from '../service/intToRomanNumeral'
-import Cache from '../model/cache'
-
-const cache = new Cache()
+import cache from '../model/cache'
 
 export const romanNumeralHandler = async (queryObj) => {
 	let res = { input: '', output: '' }
@@ -11,15 +9,16 @@ export const romanNumeralHandler = async (queryObj) => {
 	}
 
 	res.input = queryObj.query
-	const output = await cache.get(res.input)
+	const key = `romanNumeralHandler:${res.input}`
+	const output = await cache.get(key)
 	if (output) {
 		res.output = output
-		console.log(`cache hit for key: ${res.input} val: ${output}`)
+		console.log(`cache hit for key: ${key} val: ${output}`)
 		return res
 	}
 	try {
 		res.output = intToRomanNumeral(res.input)
-		cache.set(res.input, res.output)
+		cache.set(`${key}`, res.output)
 	} catch (err) {
 		res.error = err.toString()
 	}

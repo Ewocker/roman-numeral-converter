@@ -15,6 +15,7 @@ test
 
 ## Log Format
 NCSA Common Log Format https://en.wikipedia.org/wiki/Common_Log_Format
+TODO loglevel
 
 ## Others
 distroless for security
@@ -25,6 +26,10 @@ gcr.io/distroless/nodejs:14
 at the point of time, changes to deployment update should be made for both docker-compose and kubernetes
 
 ## Development Setup
+### Locally
+yarn dev
+with redis docker run -it -p 6379:6379 redis:alpine3.13
+
 ### Code Stye and Linter
 Using eslint for code linting. Refer to .eslintrc.js for codestyle.
 One can setup auto formating base on the eslintrc.js or run `npm lint` and `npm lint:fix`. 
