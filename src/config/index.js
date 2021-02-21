@@ -3,6 +3,11 @@ const configs = {
   	redisURL: 'redis://127.0.0.1:6379',
 		enableRedisCache: true,
 		cacheSyncInterval: 5000
+	},
+	production: {
+  	redisURL: 'redis://127.0.0.1:6379',
+		enableRedisCache: false,
+		cacheSyncInterval: 5000
 	}
 }
 
