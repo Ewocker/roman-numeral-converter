@@ -9,6 +9,9 @@ src
 └───service      # Business logic
 ```
 
+## Log Format
+NCSA Common Log Format https://en.wikipedia.org/wiki/Common_Log_Format
+
 ## Others
 distroless for security
 gcr.io/distroless/nodejs:14
