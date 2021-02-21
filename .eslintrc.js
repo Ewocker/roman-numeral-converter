@@ -7,6 +7,7 @@ module.exports = {
 	extends: ['prettier'],
 	parserOptions: {
 		ecmaVersion: 12,
+		sourceType: 'module'
 	},
 	rules: {
 		indent: ['error', 'tab'],

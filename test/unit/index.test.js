@@ -1,5 +1,5 @@
-const { expect } = require('@jest/globals')
-const { intToRomanNumeral } = require('./app.js')
+import { expect } from '@jest/globals'
+import intToRomanNumeral from '../../src/service/intToRomanNumeral'
 
 describe('test intToRomanNumeral', () => {
 	it.each`
@@ -87,7 +87,22 @@ describe('test intToRomanNumeral', () => {
     ${'4000  '}
     ${'     _ 4000  '}
     ${'  """&530   _ 4000  '}
+    ${'-2'}
+    ${'+1000'}
+    ${-2}
+    ${'+1000'}
+    ${'01'}
+    ${'00100'}
+    ${'03999'}
+    ${'04000'}
+    ${'0.2'}
+    ${'2.2'}
+    ${'0.2'}
+    ${'6.9e+13'}
+    ${'2e10'}
+    ${'2e+10'}
+    ${'2.2e+10'}
   `('should throw error for input $input', ({ input }) =>
-		expect(() => intToRomanNumeral(input)).toThrow('Parameter is not a number')
+		expect(() => intToRomanNumeral(input)).toThrow('Parameter is not a integer number')
 	)
 })

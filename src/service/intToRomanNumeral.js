@@ -10,9 +10,12 @@ const symbol = {
 	1000: 'M',
 }
 
-exports.intToRomanNumeral = (n) => {
+export default function intToRomanNumeral(n) {
 	// validation
-	if (!validator.isNumeric(String(n), {no_symbols: true})) throw 'Parameter is not a number'
+	if (
+		!validator.isNumeric(String(n), {no_symbols: true}) ||
+		typeof n === 'string' && n.length > 1 && n.charAt(0) === '0' // edge case
+	) throw 'Parameter is not a integer number'
 	let val = Number(n)
 	if (!(1 <= val && val <= 3999 )) throw 'Parameter must be in range of 1-3999'
 
