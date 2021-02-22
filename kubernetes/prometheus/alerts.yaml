@@ -17,3 +17,30 @@ spec:
             app: roman-numeral-convertor
           annotations:
             description: No RomanNumeralConvertor servers are reachable or all have disappeared from service discovery.
+        - alert: RomanNumeralConvertorHighMedianResponseTime
+          expr: histogram_quantile(0.5, sum(rate(http_request_duration_ms_bucket{app="roman-numeral-convertor"}[1m])) by (le, service, route, method)) > 100
+          for: 2m
+          labels:
+            namespace: <namespace>
+            app: roman-numeral-convertor
+          annotations:
+            description: "{{ $labels.method }} {{ $labels.route }} has a median response time above 100ms (current value: {{ $value }}ms)"
+        # ----- If node-exporter is installed -----
+        # - alert: RomanNumeralConvertorCPUUsageWarning
+        #   expr: (sum by (pod,container)  (rate(container_cpu_usage_seconds_total{pod=~"roman-numeral-convertor.*"}[1m]))/(sum by(pod,container) (container_spec_cpu_quota{container!="",pod=~"roman-numeral-convertor.*"}))) * 10000000 > 80
+        #   for: 10m
+        #   labels:
+        #     namespace: <namespace>
+        #     app: roman-numeral-convertor
+        #   annotations:
+        #     description: High CPU Usage Warning
+        #     summary: roman-numeral-convertor deployment is having a high CPU consumption of greater than 80% of its CPU limit for 10 minutes. Warning.
+        # - alert: RomanNumeralConvertorCPUUsageCritical
+        #   expr: (sum by (pod,container)  (rate(container_cpu_usage_seconds_total{pod=~"roman-numeral-convertor.*"}[1m]))/(sum by(pod,container) (container_spec_cpu_quota{container!="",pod=~"roman-numeral-convertor.*"}))) * 10000000 > 90
+        #   for: 10m
+        #   labels:
+        #     namespace: <namespace>
+        #     app: roman-numeral-convertor
+        #   annotations:
+        #     description: High CPU Usage Critical
+        #     summary: roman-numeral-convertor deployment is having a high CPU consumption of more than 90% of its CPU limit for 10 minutes. Critical.
