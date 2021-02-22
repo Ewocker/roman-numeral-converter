@@ -1,0 +1,37 @@
+# docker-compose.yml
+
+version: "3.2"
+
+services:
+  service:
+    image: ewocker/roman-numeral-convertor:latest
+    restart: always
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "1"
+          memory: 200M
+        reservations:
+          memory: 100M
+    depends_on:
+      - cache
+    ports:
+      - 8080:8080
+
+  cache:
+    # redis:alpine3.13
+    image: redis@sha256:6ea115e574af216b2175f3783bb1119140b24619632e522841c1aac6990f5e79
+    restart: always
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "1"
+          memory: 100M
+        reservations:
+          memory: 50M
+    ports:
+      - 6379:6379
+    volumes:
+      - /tmp/redis:/data
