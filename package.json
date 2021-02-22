@@ -6,7 +6,8 @@
   "author": "Ewocker <chockerlin@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "cross-env NODE_ENV=local nodemon -r esm index.js",
+    "start": "node index.js",
+    "dev": "cross-env NODE_ENV=local nodemon index.js",
     "test:api": "jest test/api",
     "test:unit": "jest test/unit",
     "lint": "eslint .",

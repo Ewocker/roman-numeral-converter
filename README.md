@@ -20,10 +20,13 @@ TODO loglevel
 ## Others
 distroless for security
 gcr.io/distroless/nodejs:14
+ISSUE: https://discuss.circleci.com/t/docker-build-fails-with-nonsensical-eperm-operation-not-permitted-copyfile/37364/30
 
 
 ## Deployment
 at the point of time, changes to deployment update should be made for both docker-compose and kubernetes
+TODO bazel to make image use nonroot 65532 by default
+todo make image version automation instead of latest
 
 ## Development Setup
 ### Locally
@@ -40,4 +43,5 @@ TODO Jest source map for esm
 ---
 ## Reference
 - .gitignore https://github.com/github/gitignore/blob/master/Node.gitignore
+- .dockerignore https://github.com/RisingStack/kubernetes-nodejs-example/blob/master/.dockerignore
 - Roman numeral specification https://en.wikipedia.org/wiki/Roman_numerals
