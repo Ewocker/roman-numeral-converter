@@ -1,12 +1,6 @@
 import Redis from 'async-redis'
 import config from '../config'
-
-// client.on('error', function(error) {
-// 	console.error(error)
-// })
- 
-// client.set('key', 'value', redis.print)
-// client.get('key', redis.print)
+import metric from './metric'
 
 class Cache {
 	constructor() {
@@ -14,7 +8,12 @@ class Cache {
 		if (config.enableRedisCache) {
 			// insert all existing cache
 			this.client = Redis.createClient(config.redisURL)
+			this.client.on('error', err => {
+				metric.custom.cacheErrorCounter.inc({ errcode: err.code })
+				console.error(err)
+			})
 			this.sync()
+
 			if (config.cacheSyncInterval) setInterval(() => this.sync(), config.cacheSyncInterval)
 		}
 	}
@@ -22,7 +21,6 @@ class Cache {
 	async get(key) {
 		let val = this.map[key]
 		if (val) return val
-
 		if (!config.enableRedisCache) return val
 		try {
 			val = await this.client.get(key)
@@ -54,10 +52,13 @@ class Cache {
 			for (let k of keys) {
 				if (!(k in this.map)) this.map[k] = await this.client.get(k)
 			}
+			metric.custom.cacheSyncCounter.inc()
 		} catch (err) {
+			metric.custom.cacheErrorCounter.inc({ errcode: error.code })
 			console.error(err)
 		}
-		// TODO debug level, metrics
+		
+		// TODO debug level
 		console.log(`sync cache from redis to in-mem cache for ${Object.keys(this.map).length} keys`)
 	}
 }
