@@ -45,6 +45,7 @@ Dev Dependencies
 - Linter: `eslint` stack
 - Others: `nodemon`, ` cross-env`
 # Testing
+Both Unit and API tests follow table driven testing style using Jest Tagged Template Literal table.
 ## Unit Test
 Unit testing is ran automatically when building docker image. To run it locally,
 ```bash
