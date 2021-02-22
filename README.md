@@ -1,4 +1,3 @@
-# Folder Structure
 ```
 index.js        # For ESM module only
 src
@@ -13,9 +12,6 @@ test
 └───api         # api test folder
 └───unit        # unit test folder
 ```
-
-# Log Format
-NCSA Common Log Format https://en.wikipedia.org/wiki/Common_Log_Format
 
 # Tech Framework used
 Major Dependencies
@@ -42,7 +38,52 @@ Unit testing is ran automatically when building docker image. To run it locally,
 $ yarn test:unit
 ```
 ## API Test
-API testing are currently not automated, to run it server must 
+API testing are currently not automated, to run it server must up and running.
+```bash
+$ yarn test:api
+```
+
+Test can also be done during deployment, see [Deployment>kubernetes](#kubernetes) on how to deploy.
+
+## Load Test
+>💡 Below load testing results can only be used for reference.
+The test setup is through running on a one node k8s instance (kind k8s@1.20.2) using `vegeta` with resource:
+```yaml
+resources:
+  requests:
+    memory: "100Mi"
+  limits:
+    cpu: "200m"
+    memory: "200Mi"
+```
+Below are the average outputs of 150rps and 200rps. The result shows that application is able to take around 150rps at most for better performance.
+
+```bash 
+❯ echo "GET http://localhost:8080/romannumeral?query=3999" | vegeta attack -duration=10s -rate=200 |  vegeta report
+Requests      [total, rate, throughput]         2000, 200.09, 199.00
+Duration      [total, attack, wait]             10.05s, 9.995s, 55.1ms
+Latencies     [min, mean, 50, 90, 95, 99, max]  10.688ms, 515.128ms, 482.887ms, 822.74ms, 1.213s, 1.459s, 1.93s
+Bytes In      [total, mean]                     92000, 46.00
+Bytes Out     [total, mean]                     0, 0.00
+Success       [ratio]                           100.00%
+Status Codes  [code:count]                      200:2000  
+Error Set:
+❯ echo "GET http://localhost:8080/romannumeral?query=3999" | vegeta attack -duration=10s -rate=150 |  vegeta report
+Requests      [total, rate, throughput]         1500, 150.09, 146.41
+Duration      [total, attack, wait]             10.245s, 9.994s, 251.367ms
+Latencies     [min, mean, 50, 90, 95, 99, max]  2.646ms, 6.861ms, 4.354ms, 8.109ms, 14.261ms, 46.544ms, 258.782ms
+Bytes In      [total, mean]                     69000, 46.00
+Bytes Out     [total, mean]                     0, 0.00
+Success       [ratio]                           100.00%
+Status Codes  [code:count]                      200:1500  
+Error Set:
+```
+
+## TODO
+- Jest source map for esm
+- more detailed API test
+- test cache layer
+
 
 # Deployment
 There are 2 of environments in `src/config/index.js` which suites better for deployment.
@@ -60,6 +101,11 @@ To deploy on kubernetes, one should refer to `kubernetes` folder for all resourc
 Note that redis is being deployed as a statless application, which do not persist data over restart.
 ```bash
 $ kubectl apply -n <namespace> -f kubernetes/redis-cache.yaml -f kubernetes/roman-numeral-convertor.yaml
+```
+
+API test can also be done throught kubernetes
+```bash
+$ kubectl apply -n <namespace> -f kubernetes/runtime.yaml
 ```
 
 ## custom
@@ -112,8 +158,11 @@ $ docker run -it -p 6379:6379 redis:alpine3.13
 Using eslint for code linting. Refer to .eslintrc.js for codestyle.
 One can setup auto formating base on the eslintrc.js or run `npm lint` and `npm lint:fix`. 
 
-# Test
-TODO Jest source map for esm
+# Logging
+Follow [NCSA Common Log Format](https://en.wikipedia.org/wiki/Common_Log_Format) for HTTP access logs.
+
+Application log level can be set through configuration.
+
 
 ---
 # Reference

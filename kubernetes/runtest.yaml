@@ -21,9 +21,13 @@ spec:
     runAsNonRoot: true
   containers:
     - name: test
-      image: ewocker/roman-numeral-convertor-test:doc
+      image: ewocker/roman-numeral-convertor-test:main
+      imagePullPolicy: Always
       securityContext:
         runAsUser: 1000
         allowPrivilegeEscalation: false
         capabilities:
           drop: ["all"]
+      env:
+        - name: URL
+          value: "http://roman-numeral-convertor:8080"

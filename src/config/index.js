@@ -18,7 +18,7 @@ const configs = {
 	},
 	'kubernetes': {
   	redisURL: 'redis://redis-cache:6379',
-		enableRedisCache: true,
+		enableRedisCache: false,
 		cacheSyncInterval: 60000, // 1 minute
 		logLevel: 'info'
 	}
