@@ -1,0 +1,66 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-cache
+  labels:
+    app: redis-cache
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: redis-cache
+  template:
+    metadata:
+      labels:
+        app: redis-cache
+    spec:
+      serviceAccountName: redis-cache
+      securityContext:
+        runAsNonRoot: true
+      containers:
+        - name: service
+          image: redis@sha256:6ea115e574af216b2175f3783bb1119140b24619632e522841c1aac6990f5e79
+          ports:
+            - containerPort: 6379
+              protocol: TCP
+          resources:
+            requests:
+              memory: "100Mi"
+            limits:
+              cpu: "200m"
+              memory: "200Mi"
+          securityContext:
+            runAsUser: 1000
+            allowPrivilegeEscalation: false
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: redis-cache
+  name: redis-cache
+spec:
+  ports:
+    - port: 6379
+      protocol: TCP
+      targetPort: 6379
+      name: http
+  selector:
+    app: redis-cache
+  sessionAffinity: None
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app: redis-cache
+  name: redis-cache

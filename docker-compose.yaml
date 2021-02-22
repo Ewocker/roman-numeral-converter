@@ -4,7 +4,7 @@ version: "3.2"
 
 services:
   service:
-    image: ewocker/roman-numeral-convertor:latest
+    image: ewocker/roman-numeral-convertor:main
     restart: always
     deploy:
       replicas: 1
@@ -14,6 +14,8 @@ services:
           memory: 200M
         reservations:
           memory: 100M
+    environment:
+      NODE_ENV: docker-compose
     depends_on:
       - cache
     ports:
