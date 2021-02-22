@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    app: roman-numeral-convertor
+  name: roman-numeral-convertor.rules
+  namespace: prometheus
+spec:
+  groups:
+    - name: roman-numeral-convertor.rules
+      rules:
+        - alert: RomanNumeralConvertorIsDown
+          expr: absent(up{job="roman-numeral-convertor"} == 1)
+          for: 30m
+          labels:
+            namespace: <namespace>
+            app: roman-numeral-convertor
+          annotations:
+            description: No RomanNumeralConvertor servers are reachable or all have disappeared from service discovery.
