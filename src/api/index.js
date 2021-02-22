@@ -1,5 +1,6 @@
 import intToRomanNumeral from '../service/intToRomanNumeral'
 import cache from '../model/cache'
+import log from '../util/logger'
 
 export const romanNumeralHandler = async (queryObj) => {
 	let res = { input: '', output: '' }
@@ -13,7 +14,7 @@ export const romanNumeralHandler = async (queryObj) => {
 	const output = await cache.get(key)
 	if (output) {
 		res.output = output
-		console.log(`cache hit for key: ${key} val: ${output}`)
+		log.debug(`cache hit for key: ${key} val: ${output}`)
 		return res
 	}
 	try {

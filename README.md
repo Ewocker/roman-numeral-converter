@@ -7,7 +7,7 @@ src
 └───service     # Business logic
 └───config      # Environment variables and configuration
 └───loader      # Split the startup process into modules
-└───model       # Database models
+└───model       # Models and Classes
 test
 └───api         # api test folder
 └───unit        # unit test folder

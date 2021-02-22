@@ -4,6 +4,7 @@ const configs = {
   	redisURL: 'redis://127.0.0.1:6379',
 		enableRedisCache: false,
 		cacheSyncInterval: 5000,
+		logLevel: 'debug' // trace, debug, info, warn, error 
 	},
 	'local': {},
 	'local-redis': {
@@ -11,12 +12,14 @@ const configs = {
 	},
 	'docker-compose': {
 		enableRedisCache: true,
-		cacheSyncInterval: 60000 // 1 minute
+		cacheSyncInterval: 60000, // 1 minute
+		logLevel: 'info'
 	},
 	'kubernetes': {
   	redisURL: 'redis://redis-cache:6379',
 		enableRedisCache: true,
-		cacheSyncInterval: 60000 // 1 minute
+		cacheSyncInterval: 60000, // 1 minute
+		logLevel: 'info'
 	}
 }
 
