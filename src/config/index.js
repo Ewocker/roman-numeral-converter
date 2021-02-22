@@ -11,13 +11,14 @@ const configs = {
 		enableRedisCache: true,
 	},
 	'docker-compose': {
+		redisURL: 'redis://redis-cache:6379',
 		enableRedisCache: true,
 		cacheSyncInterval: 60000, // 1 minute
 		logLevel: 'info'
 	},
 	'kubernetes': {
   	redisURL: 'redis://redis-cache:6379',
-		enableRedisCache: true,
+		enableRedisCache: false,
 		cacheSyncInterval: 60000, // 1 minute
 		logLevel: 'info'
 	}

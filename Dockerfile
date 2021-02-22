@@ -1,4 +1,4 @@
-# node:node:14.15.5-alpine3.13
+# node:14.15.5-alpine3.13
 FROM node@sha256:03b86ea1f9071a99ee3de468659c9af95ca0bedbcd7d32bf31d61fa32c1a8ab3 as builder
 
 USER node
@@ -14,7 +14,7 @@ COPY --chown=node:node src/ src/
 COPY --chown=node:node test/ test/
 
 
-# node:node:14.15.5-alpine3.13
+# node:14.15.5-alpine3.13
 FROM node@sha256:03b86ea1f9071a99ee3de468659c9af95ca0bedbcd7d32bf31d61fa32c1a8ab3 as tester
 
 USER node

@@ -6,6 +6,7 @@ services:
   service:
     image: ewocker/roman-numeral-convertor:main
     restart: always
+    user: nonroot
     deploy:
       replicas: 1
       resources:
@@ -21,10 +22,11 @@ services:
     ports:
       - 8080:8080
 
-  cache:
+  redis-cache:
     # redis:alpine3.13
     image: redis@sha256:6ea115e574af216b2175f3783bb1119140b24619632e522841c1aac6990f5e79
     restart: always
+    # user: redis
     deploy:
       replicas: 1
       resources:

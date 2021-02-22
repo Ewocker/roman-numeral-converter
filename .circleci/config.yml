@@ -1,8 +1,9 @@
 version: 2
 jobs:
-  build-test:
+  build:
     environment:
       IMAGE_NAME: ewocker/roman-numeral-convertor
+      TEST_IMAGE_NAME: ewocker/roman-numeral-convertor-test
     docker:
       # circleci/buildpack-deps:stretch
       - image: circleci/buildpack-deps@sha256:58a57da3f932a6eefa50e69000d4605754c01f0ce6b4a0b3a34d8da516a3a45b
@@ -15,15 +16,22 @@ jobs:
           name: Build Docker image
           command: docker build -t $IMAGE_NAME:$CIRCLE_BRANCH .
       - run:
-          name: Archive Docker image
-          command: docker save -o image.tar $IMAGE_NAME
+          name: Build Test Docker image
+          command: docker build -t $TEST_IMAGE_NAME:$CIRCLE_BRANCH -f test.Dockerfile .
+      - run:
+          name: Archive Docker images
+          command: |
+            docker save -o image.tar $IMAGE_NAME:$CIRCLE_BRANCH
+            docker save -o test-image.tar $TEST_IMAGE_NAME:$CIRCLE_BRANCH
       - persist_to_workspace:
           root: .
           paths:
             - ./image.tar
-  publish:
+            - ./test-image.tar
+  push:
     environment:
       IMAGE_NAME: ewocker/roman-numeral-convertor
+      TEST_IMAGE_NAME: ewocker/roman-numeral-convertor-test
     docker:
       # circleci/buildpack-deps:stretch
       - image: circleci/buildpack-deps@sha256:58a57da3f932a6eefa50e69000d4605754c01f0ce6b4a0b3a34d8da516a3a45b
@@ -34,18 +42,21 @@ jobs:
           # Issue https://support.circleci.com/hc/en-us/articles/360050934711-Docker-build-fails-with-EPERM-operation-not-permitted-copyfile-when-using-node-14-9-0-or-later-
           version: 19.03.13
       - run:
-          name: Load archived Docker image
-          command: docker load -i /tmp/workspace/image.tar
+          name: Load archived Docker images
+          command: |
+            docker load -i /tmp/workspace/image.tar
+            docker load -i /tmp/workspace/test-image.tar
       - run:
-          name: Publish Docker Image to Docker Hub
+          name: Push Docker Images to DockerHub
           command: |
             echo "$DOCKERHUB_ACCESS_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
             docker push $IMAGE_NAME:$CIRCLE_BRANCH
+            docker push $TEST_IMAGE_NAME:$CIRCLE_BRANCH
 workflows:
   version: 2
   build:
     jobs:
-      - build-test
-      - publish:
+      - build
+      - push:
           requires:
-            - build-test
+            - build
