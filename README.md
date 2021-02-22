@@ -1,6 +1,33 @@
 # Roman Numeral Convertor
 A application that converts numbers to roman numerals.
 
+# Table of Content
+   * [Roman Numeral Convertor](#roman-numeral-convertor)
+   * [Service](#service)
+      * [Service Basics](#service-basics)
+      * [Service Diagram](#service-diagram)
+      * [Folder Structure](#folder-structure)
+   * [Tech Framework used](#tech-framework-used)
+   * [Testing](#testing)
+      * [Unit Test](#unit-test)
+      * [API Test](#api-test)
+      * [Load Test](#load-test)
+   * [Deployment](#deployment)
+      * [docker-compose](#docker-compose)
+      * [kubernetes](#kubernetes)
+      * [custom](#custom)
+   * [Build](#build)
+      * [Docker](#docker)
+   * [Metrics, Alerts, and Monitoring](#metrics-alerts-and-monitoring)
+      * [Application Metric](#application-metric)
+   * [Pipeline](#pipeline)
+   * [Development Setup](#development-setup)
+      * [local](#local)
+      * [local-redis](#local-redis)
+      * [Code Style and Linter](#code-style-and-linter)
+   * [Logging](#logging)
+   * [Reference](#reference)
+
 # Service
 ## Service Basics
 Main convertion logic is located in `src/service/intToRomanNumeral.js`.
@@ -96,7 +123,7 @@ Status Codes  [code:count]                      200:1500
 Error Set:
 ```
 
-## TODO
+TODO:
 - Jest source map for esm
 - more detailed API test
 - test cache mechanism
