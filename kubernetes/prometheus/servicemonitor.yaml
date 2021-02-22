@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: roman-numeral-convertor
+  namespace: prometheus
+  labels:
+    prometheus.io: scrape
+spec:
+  jobLabel: app
+  selector:
+    matchLabels:
+      app: pfpt-k8s-rolling-update-controller
+  namespaceSelector:
+    matchNames:
+      - <namespace>
+  endpoints:
+    - port: http
+      interval: 15s

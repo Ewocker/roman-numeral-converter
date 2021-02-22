@@ -142,6 +142,24 @@ Current docker image contains 2 intermediate images and the final image, where
 
 TODO: bazel to make image use nonroot 65532 by default, currently this need to be specified when starting container with the container runtime.
 
+# Metrics, Alerts, and Monitoring
+Nodejs application default metrics are collected and exposes through `/metrics` endpoint path. The format is simple text-based exposition format that prometheus accepts.
+
+>💡 If application is exposed to external in production, one should expose another port for metric endpoint and place necessary network control for it.
+
+## Application Metric
+These application metrics are located in `src/model/metric.js`. 
+- http_request_duration_seconds: Duration of HTTP requests in microseconds
+- cache_sync: Number of times cache sync occurs
+- cache_error: Number of times cache errors
+
+Alert and monitoring resource spec for kubernetes `kubernetes/prometheus` folder, though namespace and fields must be filled out.
+
+TODO:
+- grafana dashboard
+- if exporters are deployed, add more alerts
+- if customer metrics can be retrieved, add HPA base on metrics
+
 # Pipeline 
 This project currently only implement CI using CircleCI without any CD automation.
 Every commit push to the repository will have a corresponding pipeline build.
