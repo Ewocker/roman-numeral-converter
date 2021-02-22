@@ -1,3 +1,5 @@
+// TODO move this to util
+
 import Prom from 'prom-client'
 import config from '../config'
 
@@ -5,12 +7,15 @@ class Metric {
 	constructor() {
 		this.register = new Prom.Registry()
 		this.register.setDefaultLabels({ app: config.name })
-		this.custom = {}
+		this.custom = {} // For storing custom metrics
 		Prom.collectDefaultMetrics({ register: this.register })
-		this.registercustom()
+		this.registerCustomMetrics()
 	}
 
-	registercustom() {
+	/**
+	 * registerCustomMetrics registers custom prometheus metrics to Metric instance.
+	 */
+	registerCustomMetrics() {
 		this.custom.httpRequestDurationMicroseconds = new Prom.Histogram({
 			name: 'http_request_duration_seconds',
 			help: 'Duration of HTTP requests in microseconds',

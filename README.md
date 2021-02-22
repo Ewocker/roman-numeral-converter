@@ -2,10 +2,12 @@
 A application that converts numbers to roman numerals.
 
 # Service
-## Service Logic
+## Service Basics
 Main convertion logic is located in `src/service/intToRomanNumeral.js`.
 
 ## Service Diagram
+A time-based sync mechanism across multiple replicas for better performance can be turned on through [configuration](#custom) by setting `enableRedisCache` to `true`. If not application by default keeps a map of in memory cache.
+
 ![draft service diagram](./doc/draft-service-diagram.png)
  
 ## Folder Structure
@@ -48,13 +50,16 @@ Unit testing is ran automatically when building docker image. To run it locally,
 ```bash
 $ yarn test:unit
 ```
+
+Current test cases contain basic functionality, valdiation, as well as many edge cases.
+
 ## API Test
 API testing are currently not automated, to run it server must up and running.
 ```bash
 $ yarn test:api
 ```
 
-Test can also be done during deployment, see [Deployment>kubernetes](#kubernetes) on how to deploy.
+Test can also be done during deployment, see [Deployment>kubernetes](#kubernetes) on how to deploy. API test currently only covers basic functionality and does not test metric endpoint.
 
 ## Load Test
 >💡 Below load testing results can only be used for reference.
@@ -93,7 +98,7 @@ Error Set:
 ## TODO
 - Jest source map for esm
 - more detailed API test
-- test cache layer
+- test cache mechanism
 
 
 # Deployment

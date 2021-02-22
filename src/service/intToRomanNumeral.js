@@ -10,6 +10,13 @@ const symbol = {
 	1000: 'M',
 }
 
+/**
+ * intToRomanNumeral converts input number to roman numeral.
+ *
+ * @param {string|number} n - input to convert to roman numeral. Must be of range 1-3999 of string or number type.
+ * @return {string} Roman Numeral of the input n
+ */
+
 export default function intToRomanNumeral(n) {
 	// validation
 	if (
