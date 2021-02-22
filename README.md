@@ -1,3 +1,14 @@
+# Roman Numeral Convertor
+A application that converts numbers to roman numerals.
+
+# Service
+## Service Logic
+Main convertion logic is located in `src/service/intToRomanNumeral.js`.
+
+## Service Diagram
+![draft service diagram](./doc/draft-service-diagram.png)
+ 
+## Folder Structure
 ```
 index.js        # For ESM module only
 src
