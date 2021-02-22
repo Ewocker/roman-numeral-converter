@@ -32,6 +32,7 @@
     "koa": "^2.13.1",
     "koa-accesslog": "^1.0.0",
     "koa-router": "^10.0.0",
+    "prom-client": "^13.1.0",
     "validator": "^13.5.2"
   }
 }
