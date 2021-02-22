@@ -11,6 +11,7 @@ const configs = {
 		enableRedisCache: true,
 	},
 	'docker-compose': {
+		redisURL: 'redis://redis-cache:6379',
 		enableRedisCache: true,
 		cacheSyncInterval: 60000, // 1 minute
 		logLevel: 'info'

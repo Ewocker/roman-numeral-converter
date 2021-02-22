@@ -1,0 +1,29 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app: roman-numeral-convertor-test
+  name: roman-numeral-convertor-test
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: roman-numeral-convertor-test
+  labels:
+    app: roman-numeral-convertor-test
+spec:
+  restartPolicy: Never
+  serviceAccountName: roman-numeral-convertor-test
+  dnsPolicy: ClusterFirst
+  securityContext:
+    runAsNonRoot: true
+  containers:
+    - name: test
+      image: ewocker/roman-numeral-convertor-test:doc
+      securityContext:
+        runAsUser: 1000
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop: ["all"]

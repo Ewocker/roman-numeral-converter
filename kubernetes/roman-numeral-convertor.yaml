@@ -38,6 +38,8 @@ spec:
           securityContext:
             runAsUser: 65532
             allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["all"]
           env:
             - name: NODE_ENV
               value: kubernetes
