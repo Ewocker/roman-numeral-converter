@@ -25,7 +25,6 @@ class Cache {
 		if (!config.enableRedisCache) return val
 		try {
 			val = await this.client.get(key)
-			// TDOD debug level, metrics
 			if (val) log.debug(`cache hit from redis for key ${key}`)
 		} catch (err) {
 			log.error(err)
@@ -59,7 +58,6 @@ class Cache {
 			log.error(err)
 		}
 		
-		// TODO debug level
 		log.info(`sync cache from redis to in-mem cache for ${Object.keys(this.map).length} keys`)
 	}
 }

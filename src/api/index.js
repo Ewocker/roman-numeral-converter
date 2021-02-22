@@ -2,6 +2,12 @@ import intToRomanNumeral from '../service/intToRomanNumeral'
 import cache from '../model/cache'
 import log from '../util/logger'
 
+/**
+ * romanNumeralHandler handles the requests to path /romannumeral
+ * 
+ * @param {object} queryObj - queryObj is the query string received from request, must be in object format
+ * @return {object}         - returns an object with field input, output and (optional) error.  
+ */
 export const romanNumeralHandler = async (queryObj) => {
 	let res = { input: '', output: '' }
 	if (!('query' in queryObj)) {

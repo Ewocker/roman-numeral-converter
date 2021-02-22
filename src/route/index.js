@@ -5,7 +5,7 @@ import metric from '../model/metric'
 const router = new Router()
 
 router.all('/romannumeral', async (ctx, next) => {
-	// TODO wrap this metric
+	// TODO wrap metric as middleware
 	const end = metric.custom.httpRequestDurationMicroseconds.startTimer()
 
 	ctx.body = JSON.stringify(await romanNumeralHandler(ctx.request.query), null, 2)
