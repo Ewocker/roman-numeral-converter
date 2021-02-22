@@ -126,7 +126,7 @@ One can add a configuration to `src/config/index.js` for any custom setup. Below
   name: 'roman-numeral-convertor',
   redisURL: 'redis://127.0.0.1:6379',
   enableRedisCache: false,
-  cacheSyncInterval: 5000,
+  cacheSyncInterval: 5000, // ms
   logLevel: 'debug' // trace, debug, info, warn, error 
 }
 ```
@@ -151,6 +151,7 @@ Built images will be tagged with branch name and push to dockerhub.
 # Development Setup
 There are 2 of environments in `src/config/index.js` which can be used develop locally.
 One must install all dependencies before dev through `yarn install`. 
+NodeJS version 14 is suggested for local development.
 
 ___!!! Do not use npm as it yarn.lock is being used for install at build time___
 ## local
@@ -170,9 +171,9 @@ Using eslint for code linting. Refer to .eslintrc.js for codestyle.
 One can setup auto formating base on the eslintrc.js or run `npm lint` and `npm lint:fix`. 
 
 # Logging
-Follow [NCSA Common Log Format](https://en.wikipedia.org/wiki/Common_Log_Format) for HTTP access logs.
+Follow [NCSA Common Log Format](https://en.wikipedia.org/wiki/Common_Log_Format) for HTTP access logs. Non HTTP access logs are in format of `YYYY-MM-DD HH:mm:ss.SSS [LEVEL] message`, and if necessary can be easily changed to centralized logging server required format.
 
-Application log level can be set through configuration.
+Application log level can be set through configuration, see [Deployment>custom](#custom).
 
 
 ---
