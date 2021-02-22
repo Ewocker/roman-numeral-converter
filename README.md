@@ -143,13 +143,15 @@ Current docker image contains 2 intermediate images and the final image, where
 TODO: bazel to make image use nonroot 65532 by default, currently this need to be specified when starting container with the container runtime.
 
 # Metrics, Alerts, and Monitoring
-Nodejs application default metrics are collected and exposes through `/metrics` endpoint path. The format is simple text-based exposition format that prometheus accepts.
+Nodejs application default metrics are collected and exposes through `/metrics` endpoint path. The format is simple text-based exposition format that prometheus accepts. Alerts definitions are located in `/kubernetes/prometheus/alerts.yaml`.
+
+Sample grafana dashboard that is compatible with exposed metrics can be found [here](https://github.com/RisingStack/example-prometheus-nodejs/blob/master/grafana-dashboard.json).
 
 >💡 If application is exposed to external in production, one should expose another port for metric endpoint and place necessary network control for it.
 
 ## Application Metric
 These application metrics are located in `src/model/metric.js`. 
-- http_request_duration_seconds: Duration of HTTP requests in microseconds
+- http_request_duration_ms: Duration of HTTP requests in microseconds
 - cache_sync: Number of times cache sync occurs
 - cache_error: Number of times cache errors
 
