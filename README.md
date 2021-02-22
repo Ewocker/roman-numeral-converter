@@ -173,7 +173,8 @@ Current docker image contains 2 intermediate images and the final image, where
 - tester - for testing application (which installs dev dependencies)
 - final - use distroless image for security
 
-TODO: bazel to make image use nonroot 65532 by default, currently this need to be specified when starting container with the container runtime.
+TODO:
+- use bazel to make image use nonroot 65532 by default, currently this need to be specified when starting container with the container runtime.
 
 # Metrics, Alerts, and Monitoring
 Nodejs application default metrics are collected and exposes through `/metrics` endpoint path. The format is simple text-based exposition format that prometheus accepts. Alerts definitions are located in `/kubernetes/prometheus/alerts.yaml`.
@@ -191,9 +192,8 @@ These application metrics are located in `src/model/metric.js`.
 Alert and monitoring resource spec for kubernetes `kubernetes/prometheus` folder, though namespace and fields must be filled out.
 
 TODO:
-- grafana dashboard
-- if exporters are deployed, add more alerts
-- if customer metrics can be retrieved, add HPA base on metrics
+- custom grafana dashboard
+- if custom metrics can be retrieved, add HPA base on metrics
 
 # Pipeline 
 This project currently only implement CI using CircleCI without any CD automation.

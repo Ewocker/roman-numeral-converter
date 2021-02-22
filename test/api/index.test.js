@@ -1,7 +1,6 @@
 import { expect } from '@jest/globals'
 import axios from 'axios'
 
-// TODO Read froim config
 const URL = process.env.URL ? process.env.URL : 'http://localhost:8080' 
 
 describe('Test /romannumeral', () => {
