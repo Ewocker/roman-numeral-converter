@@ -14,7 +14,7 @@ export const romanNumeralHandler = async (queryObj) => {
 	let res = { input: '', output: '' }
 	let status = 200
 	if (!('query' in queryObj)) {
-		res.error = 'Input must be included in query string. Ex. /romannumeral?query=123'
+		res.error = new ValidationError('Input must be included in query string. Ex. /romannumeral?query=123').toString()
 		status = 400
 	} else {
 		res.input = queryObj.query

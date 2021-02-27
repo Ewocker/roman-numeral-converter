@@ -24,7 +24,7 @@ export default function intToRomanNumeral(n) {
 	if (
 		!validator.isNumeric(String(n), {no_symbols: true}) ||
 		typeof n === 'string' && n.length > 1 && n.charAt(0) === '0' // edge case
-	) throw new ValidationError('Validation Error: Parameter is not a integer number')
+	) throw new ValidationError('Parameter is not a integer number')
 	let val = Number(n)
 	if (!(1 <= val && val <= 3999 )) throw new ValidationError('Parameter must be in range of 1-3999')
 
