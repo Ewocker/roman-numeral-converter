@@ -9,6 +9,7 @@
     "start": "node index.js",
     "dev": "cross-env NODE_ENV=local nodemon index.js",
     "dev:redis": "cross-env NODE_ENV=local-redis nodemon index.js",
+    "test": "jest",
     "test:api": "jest test/api",
     "test:unit": "jest test/unit",
     "lint": "eslint .",

@@ -1,5 +1,5 @@
 import Router from 'koa-router'
-import { romanNumeralHandler } from '../api'
+import { romanNumeralHandler } from '../handler'
 import { accept } from '../util/koa'
 
 const router = new Router()
