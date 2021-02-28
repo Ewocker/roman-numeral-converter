@@ -9,6 +9,7 @@
     "start": "node index.js",
     "dev": "cross-env NODE_ENV=local nodemon index.js",
     "dev:redis": "cross-env NODE_ENV=local-redis nodemon index.js",
+    "test": "jest",
     "test:api": "jest test/api",
     "test:unit": "jest test/unit",
     "lint": "eslint .",
@@ -32,6 +33,8 @@
     "koa": "^2.13.1",
     "koa-accesslog": "^1.0.0",
     "koa-router": "^10.0.0",
+    "koa2-cors": "^2.0.6",
+    "negotiator": "^0.6.2",
     "prom-client": "^13.1.0",
     "simple-node-logger": "^18.12.24",
     "validator": "^13.5.2"

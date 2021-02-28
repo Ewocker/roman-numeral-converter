@@ -36,6 +36,15 @@ class Metric {
 		this.register.registerMetric(this.custom.cacheSyncCounter)
 		this.register.registerMetric(this.custom.cacheErrorCounter)
 	}
+
+	
+	httpRequestDurationMicrosecondsMiddleware() {
+		return async (ctx, next) => {
+			const end = this.custom.httpRequestDurationMicroseconds.startTimer()
+			await next()
+			end({ route: ctx.path, code: ctx.status, method: ctx.method })
+		}
+	}
 }
 
 const instance = new Metric()

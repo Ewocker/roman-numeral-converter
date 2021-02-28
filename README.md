@@ -1,32 +1,38 @@
 # Roman Numeral Convertor
-A application that converts numbers to roman numerals.
+A application that converts numbers to roman numerals. See [Romannumeral Specification](#Reference).
 
 # Table of Content
-   * [Roman Numeral Convertor](#roman-numeral-convertor)
-   * [Service](#service)
-      * [Service Basics](#service-basics)
-      * [Service Diagram](#service-diagram)
-      * [Folder Structure](#folder-structure)
-   * [Tech Framework used](#tech-framework-used)
-   * [Testing](#testing)
-      * [Unit Test](#unit-test)
-      * [API Test](#api-test)
-      * [Load Test](#load-test)
-   * [Deployment](#deployment)
-      * [docker-compose](#docker-compose)
-      * [kubernetes](#kubernetes)
-      * [custom](#custom)
-   * [Build](#build)
-      * [Docker](#docker)
-   * [Metrics, Alerts, and Monitoring](#metrics-alerts-and-monitoring)
-      * [Application Metric](#application-metric)
-   * [Pipeline](#pipeline)
-   * [Development Setup](#development-setup)
-      * [local](#local)
-      * [local-redis](#local-redis)
-      * [Code Style and Linter](#code-style-and-linter)
-   * [Logging](#logging)
-   * [Reference](#reference)
+- [Roman Numeral Convertor](#roman-numeral-convertor)
+- [Table of Content](#table-of-content)
+- [Service](#service)
+  - [Service Basics](#service-basics)
+  - [Service Diagram](#service-diagram)
+  - [Folder Structure](#folder-structure)
+  - [Log Style](#log-style)
+- [Development Setup](#development-setup)
+  - [local](#local)
+  - [local-redis](#local-redis)
+  - [Code Style and Linter](#code-style-and-linter)
+- [Build](#build)
+  - [Dockerfile](#dockerfile)
+- [Pipeline Automation](#pipeline-automation)
+- [Dependency and Reference](#dependency-and-reference)
+  - [Dependency](#dependency)
+    - [Major](#major)
+    - [Utility](#utility)
+    - [Test](#test)
+  - [Dev](#dev)
+    - [Reference](#reference)
+- [Testing](#testing)
+  - [Unit Test](#unit-test)
+  - [API Test](#api-test)
+  - [Load Test](#load-test)
+- [Deployment](#deployment)
+  - [docker-compose](#docker-compose)
+  - [kubernetes](#kubernetes)
+  - [custom](#custom)
+- [Metrics, Alerts, and Monitoring](#metrics-alerts-and-monitoring)
+  - [Application Metric](#application-metric)
 
 # Service
 ## Service Basics
@@ -42,7 +48,7 @@ A time-based sync mechanism across multiple replicas for better performance can 
 index.js        # For ESM module only
 src
 │   app.js      # Entry point
-└───api         # Route handler
+└───handler         # Route handler
 └───route       # Application routes
 └───service     # Business logic
 └───config      # Configuration
@@ -52,25 +58,86 @@ test
 └───api         # api test folder
 └───unit        # unit test folder
 ```
+## Log Style
+Follow [NCSA Common Log Format](https://en.wikipedia.org/wiki/Common_Log_Format) for HTTP access logs. Non HTTP access logs are in format of `YYYY-MM-DD HH:mm:ss.SSS [LEVEL] message`, and if necessary can be easily changed to centralized logging server required format.
 
-# Tech Framework used
-Major Dependencies
-- HTTP Routing Framework: `koa` stack + `boom`
+Application log level can be set through configuration, see [Deployment>custom](#custom).
+
+# Development Setup
+There are 2 of environments in `src/config/index.js` which can be used develop locally.
+One must install all dependencies before dev through `yarn install`. 
+NodeJS version 14+ is suggested for local development.
+
+___!!! Do not use `npm` as `yarn.lock` is being used for install at build time, `npm` only generates `package-lock.json`___
+## local
+Develop locally without external cache service.
+```bash
+$ yarn
+$ yarn dev
+```
+
+## local-redis
+Develop locally with redis as external cache service.
+
+ This requires a running redis instance, one can use redis docker image for quick development usage.
+```bash
+$ yarn
+# one can run redis in the background with "&" at the end, or simply run it in another terminal session.
+$ docker run -it -p 6379:6379 redis:alpine3.13 &
+$ yarn dev:redis
+```
+
+## Code Style and Linter
+Using eslint for code linting. Refer to .eslintrc.js for codestyle.
+One can setup auto formating base on the eslintrc.js or run `yarn lint` and `yarn lint:fix`. 
+
+# Build
+The build section covers how to build the docker image of the application.
+
+## Dockerfile
+To build the docker image run `docker build . -t <image> `.
+
+The docker image contains 2 intermediate images and a final image, where
+- builder - for building production image
+- tester - for testing application (which installs dev dependencies)
+- final - use distroless image for security
+
+TODO:
+- use bazel to make image use nonroot 65532 by default, currently this need to be specified when starting container with the container runtime.
+
+# Pipeline Automation
+This project currently only implement CI using CircleCI without any CD automation.
+Every commit push to the repository will have a corresponding pipeline build.
+The CI pipeline will build the docker image and run unit test during build.
+Built images will be tagged with branch name and push to dockerhub.
+
+# Dependency and Reference
+## Dependency
+All these dependencies are from `npm`. See `package.json` for full list of dependencies with version details.
+### Major
+- HTTP Routing Framework: `koa` stack + `boom` + `negotiator`
 - ES6 Module: `esm`
 - Cache: `redis`
 
-Utility Dependencies
+### Utility
 - Metrics: `prom-client`
 - Validation: `validator`
 - Logging: `simple-node-logger` + `koa-accesslog`
 
-Test Dependencies
+### Test
 - HTTP Client: `axios`
 - Test Framework: `jest` stack
 
-Dev Dependencies
+## Dev
 - Linter: `eslint` stack
 - Others: `nodemon`, ` cross-env`
+
+### Reference
+- .gitignore https://github.com/github/gitignore/blob/master/Node.gitignore
+- .dockerignore https://github.com/RisingStack/kubernetes-nodejs-example/blob/master/.dockerignore
+- Roman numeral specification https://en.wikipedia.org/wiki/Roman_numerals
+
+
 # Testing
 Both Unit and API tests follow table driven testing style using Jest Tagged Template Literal table.
 ## Unit Test
@@ -163,19 +230,6 @@ One can add a configuration to `src/config/index.js` for any custom setup. Below
   logLevel: 'debug' // trace, debug, info, warn, error 
 }
 ```
-
-# Build
-The application is a node js application, currently built is for docker image only.
-
-## Docker
-Current docker image contains 2 intermediate images and the final image, where
-- builder - for building production image
-- tester - for testing application (which installs dev dependencies)
-- final - use distroless image for security
-
-TODO:
-- use bazel to make image use nonroot 65532 by default, currently this need to be specified when starting container with the container runtime.
-
 # Metrics, Alerts, and Monitoring
 Nodejs application default metrics are collected and exposes through `/metrics` endpoint path. The format is simple text-based exposition format that prometheus accepts. Alerts definitions are located in `/kubernetes/prometheus/alerts.yaml`.
 
@@ -194,43 +248,3 @@ Alert and monitoring resource spec for kubernetes `kubernetes/prometheus` folder
 TODO:
 - custom grafana dashboard
 - if custom metrics can be retrieved, add HPA base on metrics
-
-# Pipeline 
-This project currently only implement CI using CircleCI without any CD automation.
-Every commit push to the repository will have a corresponding pipeline build.
-The CI pipeline will build the docker image and run unit test during build.
-Built images will be tagged with branch name and push to dockerhub.
-
-# Development Setup
-There are 2 of environments in `src/config/index.js` which can be used develop locally.
-One must install all dependencies before dev through `yarn install`. 
-NodeJS version 14 is suggested for local development.
-
-___!!! Do not use npm as it yarn.lock is being used for install at build time___
-## local
-```bash
-$ yarn dev
-```
-
-## local-redis
-This requires a running redis instance, one can use redis docker image for quick development usage.
-```bash
-$ yarn dev:redis
-$ docker run -it -p 6379:6379 redis:alpine3.13
-```
-
-## Code Style and Linter
-Using eslint for code linting. Refer to .eslintrc.js for codestyle.
-One can setup auto formating base on the eslintrc.js or run `npm lint` and `npm lint:fix`. 
-
-# Logging
-Follow [NCSA Common Log Format](https://en.wikipedia.org/wiki/Common_Log_Format) for HTTP access logs. Non HTTP access logs are in format of `YYYY-MM-DD HH:mm:ss.SSS [LEVEL] message`, and if necessary can be easily changed to centralized logging server required format.
-
-Application log level can be set through configuration, see [Deployment>custom](#custom).
-
-
----
-# Reference
-- .gitignore https://github.com/github/gitignore/blob/master/Node.gitignore
-- .dockerignore https://github.com/RisingStack/kubernetes-nodejs-example/blob/master/.dockerignore
-- Roman numeral specification https://en.wikipedia.org/wiki/Roman_numerals
